@@ -233,7 +233,7 @@ cd mobile
 npm install
 
 # 3. Start Metro bundler
-npm start
+npx expo start
 
 # 4. Run on Android emulator/device (in a separate terminal)
 npm run android
