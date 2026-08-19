@@ -135,41 +135,110 @@ GeoPulse utilizes **17 specialized collections** optimized for atomicity and hig
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Quick Start & Setup Guide
 
-### Prerequisites
-- [Docker](https://www.docker.com/) & [Docker Compose](https://docs.docker.com/compose/)
-- [Node.js](https://nodejs.org/) (v18+) & [Python](https://www.python.org/) (v3.12+)
+### 📋 Prerequisites
+- [Docker](https://www.docker.com/) & [Docker Compose](https://docs.docker.com/compose/) *(Recommended)*
+- Or local installations: [Python 3.11+](https://www.python.org/) & [Node.js 18+](https://nodejs.org/)
 
-### 1. Clone & Setup Environment
+---
+
+### 📦 1. Clone the Repository
 ```bash
 git clone https://github.com/saktiswarupmishra/Location-Tracking-GeoPulse-.git
 cd Location-Tracking-GeoPulse-
-
-# Configure environment variables
-cd backend/.env.example backend/.env
 ```
 
-### 2. Launch Backend Stack (Docker Compose)
-```bash
-docker-compose up -d --build
-```
-> 💡 *This starts the **FastAPI API server**, **MongoDB Replica Set** (with automated replica set initialization for multi-collection transactions), and **Redis Pub/Sub** instance.*
+---
 
-Check the health status:
+### ⚙️ 2. Run the Backend
+
+You can run the backend using **Docker Compose (Recommended)** or **Manually with Python**:
+
+#### 🐳 Option A: Using Docker Compose (Fastest & All-in-One)
+Starts **FastAPI Backend**, **MongoDB Replica Set** (with auto-initialization for transactions), **Redis Pub/Sub**, and **Background Worker** together.
+
 ```bash
-curl http://localhost:8000/health
+# 1. Navigate to backend directory
+cd backend
+
+# 2. Start all services in the background
+docker compose up -d --build
+
+# 3. View live server logs
+docker compose logs -f api
 ```
 
-### 3. Run the Mobile Client (`mobile/`)
+---
+
+#### 🐍 Option B: Running Locally with Python Virtual Environment
+
+Ensure you have **MongoDB** (running on port `27017`) and **Redis** (running on port `6379`).
+
 ```bash
+# 1. Navigate to the backend directory
+cd backend
+
+# 2. Create Python virtual environment
+python -m venv venv
+
+# 3. Activate the virtual environment
+# On Windows PowerShell:
+.\venv\Scripts\Activate.ps1
+
+# On Windows Command Prompt (CMD):
+.\venv\Scripts\activate.bat
+
+# On macOS / Linux:
+source venv/bin/activate
+
+# 4. Install dependencies
+pip install -r requirements.txt
+
+# 5. Start the FastAPI server
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+---
+
+### 🔍 3. Verify Backend Status
+
+- **Interactive Swagger API Docs**: Open [http://localhost:8000/docs](http://localhost:8000/docs)
+- **Health Check Endpoint**:
+  ```bash
+  curl http://localhost:8000/health
+  ```
+  *Response:*
+  ```json
+  {
+    "status": "healthy",
+    "version": "1.1.0",
+    "components": {
+      "mongodb": { "status": "connected", "latency_ms": 1.2 },
+      "redis": { "status": "connected", "latency_ms": 0.8 },
+      "websocket": { "active_connections": 0, "active_users": 0 }
+    }
+  }
+  ```
+
+---
+
+### 📱 4. Run the Mobile Client (`mobile/`)
+
+```bash
+# 1. Navigate to mobile directory
 cd mobile
+
+# 2. Install dependencies
 npm install
 
-# Run on Android
+# 3. Start Metro bundler
+npm start
+
+# 4. Run on Android emulator/device (in a separate terminal)
 npm run android
 
-# Run on iOS
+# 5. Or run on iOS simulator (macOS only)
 npm run ios
 ```
 
