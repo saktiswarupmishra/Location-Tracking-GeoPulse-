@@ -4,7 +4,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const appDirectory = path.resolve(__dirname);
 
-// Compile modules that use modern JS/JSX
 const babelLoaderConfiguration = {
   test: /\.(js|jsx|ts|tsx)$/,
   include: [
@@ -66,20 +65,21 @@ module.exports = {
     extensions: ['.web.js', '.web.jsx', '.js', '.jsx', '.json', '.ts', '.tsx'],
     alias: {
       'react-native$': 'react-native-web',
-      'react-native-maps$': path.resolve(appDirectory, 'src/components/WebMap.js'),
-      '@react-native-async-storage/async-storage$': path.resolve(
+      'react-native/Libraries/Utilities/Platform': 'react-native-web/dist/exports/Platform',
+      'react-native-maps': path.resolve(appDirectory, 'src/components/WebMap.js'),
+      '@react-native-async-storage/async-storage': path.resolve(
         appDirectory,
         'src/utils/AsyncStorageWeb.js'
       ),
-      'react-native-permissions$': path.resolve(
+      'react-native-permissions': path.resolve(
         appDirectory,
         'src/utils/PermissionsWeb.js'
       ),
-      'react-native-vector-icons$': path.resolve(
+      'react-native-vector-icons': path.resolve(
         appDirectory,
         'src/utils/VectorIconsWeb.js'
       ),
-      'react-native-geolocation-service$': path.resolve(
+      'react-native-geolocation-service': path.resolve(
         appDirectory,
         'src/services/location.js'
       ),

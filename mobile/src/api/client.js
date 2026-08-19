@@ -7,7 +7,7 @@
 
 import axios from 'axios';
 import { Platform } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '../utils/AsyncStorageWeb';
 
 const getBaseUrl = () => {
   if (Platform.OS === 'web' || typeof window !== 'undefined') {

@@ -5,7 +5,7 @@
  */
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '../utils/AsyncStorageWeb';
 import { getTokens, clearTokens } from '../api/client';
 import { userApi } from '../api/endpoints';
 
