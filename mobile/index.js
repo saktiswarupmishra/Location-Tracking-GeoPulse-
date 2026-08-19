@@ -1,8 +1,9 @@
 /**
+ * GeoPulse — Expo Entry Point
  * @format
  */
 
-import { AppRegistry } from 'react-native';
+import { registerRootComponent } from 'expo';
 import App from './src/App';
 
-AppRegistry.registerComponent('geopulse', () => App);
+registerRootComponent(App);

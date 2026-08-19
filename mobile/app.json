@@ -1,4 +1,50 @@
 {
-  "name": "geopulse",
-  "displayName": "GeoPulse"
+  "expo": {
+    "name": "GeoPulse",
+    "slug": "geopulse",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "splash": {
+      "backgroundColor": "#0A0E27",
+      "resizeMode": "contain"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.geopulse.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "GeoPulse needs your location to track and share your position on the map.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "GeoPulse needs background location access to keep tracking your position.",
+        "NSLocationAlwaysUsageDescription": "GeoPulse needs background location to provide continuous tracking."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0A0E27"
+      },
+      "package": "com.geopulse.app",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "FOREGROUND_SERVICE",
+        "FOREGROUND_SERVICE_LOCATION",
+        "VIBRATE"
+      ]
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "GeoPulse needs your location to track and share your position.",
+          "locationAlwaysPermission": "GeoPulse needs background location for continuous tracking.",
+          "locationWhenInUsePermission": "GeoPulse needs your location to show you on the map.",
+          "isAndroidBackgroundLocationEnabled": true,
+          "isAndroidForegroundServiceEnabled": true
+        }
+      ]
+    ]
+  }
 }
