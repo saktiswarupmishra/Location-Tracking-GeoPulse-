@@ -147,7 +147,7 @@ git clone https://github.com/saktiswarupmishra/Location-Tracking-GeoPulse-.git
 cd Location-Tracking-GeoPulse-
 
 # Configure environment variables
-cp backend/.env.example backend/.env
+cd backend/.env.example backend/.env
 ```
 
 ### 2. Launch Backend Stack (Docker Compose)

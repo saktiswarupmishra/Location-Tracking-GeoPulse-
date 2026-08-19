@@ -9,26 +9,30 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "react": "18.3.1",
-    "react-native": "0.76.9",
+    "@react-native-async-storage/async-storage": "^2.1.2",
+    "@react-navigation/bottom-tabs": "^7.3.0",
     "@react-navigation/native": "^7.1.0",
     "@react-navigation/native-stack": "^7.3.0",
-    "@react-navigation/bottom-tabs": "^7.3.0",
-    "react-native-screens": "^4.10.0",
-    "react-native-safe-area-context": "^5.4.0",
-    "react-native-maps": "^1.20.0",
+    "axios": "^1.7.0",
+    "react": "18.3.1",
+    "react-native": "0.76.9",
     "react-native-geolocation-service": "^5.3.1",
-    "@react-native-async-storage/async-storage": "^2.1.2",
-    "react-native-vector-icons": "^10.2.0",
+    "react-native-maps": "^1.20.0",
     "react-native-permissions": "^5.4.0",
-    "axios": "^1.7.0"
+    "react-native-safe-area-context": "^5.4.0",
+    "react-native-screens": "^4.10.0",
+    "react-native-vector-icons": "^10.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.0",
     "@babel/preset-env": "^7.25.0",
     "@babel/runtime": "^7.25.0",
+    "@react-native-community/cli": "^20.2.0",
+    "@react-native-community/cli-platform-android": "^20.2.0",
+    "@react-native-community/cli-platform-ios": "^20.2.0",
+    "@react-native/metro-config": "^0.76.9",
     "babel-plugin-module-resolver": "^5.0.2",
-    "metro-react-native-babel-preset": "^0.77.0",
-    "eslint": "^9.0.0"
+    "eslint": "^9.0.0",
+    "metro-react-native-babel-preset": "^0.77.0"
   }
 }
