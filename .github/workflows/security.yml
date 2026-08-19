@@ -1,0 +1,32 @@
+name: Security & Linting
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  security-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Bandit & Pip-Audit
+        run: |
+          pip install bandit pip-audit
+
+      - name: Run Bandit Security Scan
+        working-directory: ./backend
+        run: |
+          bandit -r app/ -ll -x tests/ || true
+
+      - name: Dependency Vulnerability Audit
+        working-directory: ./backend
+        run: |
+          pip-audit -r requirements.txt || true

@@ -1,7 +1,7 @@
 /**
  * GeoPulse — Navigation Setup
  *
- * Auth flow → Main tab navigator with Map, Contacts, SOS, Profile.
+ * Auth flow → Main 5-tab navigator: Map, Contacts, Geofences, SOS, Profile.
  */
 
 import React from 'react';
@@ -9,13 +9,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, View, StyleSheet } from 'react-native';
-import { colors, borderRadius } from '../theme';
+import { colors } from '../theme';
 import { useAuth } from '../store/AuthContext';
 
 // Screens
 import LoginScreen from '../screens/auth/LoginScreen';
 import MapScreen from '../screens/map/MapScreen';
 import ContactsScreen from '../screens/contacts/ContactsScreen';
+import GeofenceScreen from '../screens/geofences/GeofenceScreen';
 import SOSScreen from '../screens/sos/SOSScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
 
@@ -68,6 +69,19 @@ const MainTabs = () => (
         headerTintColor: colors.text.primary,
         tabBarIcon: ({ focused }) => (
           <TabIcon label="Contacts" emoji="👥" focused={focused} />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="Zones"
+      component={GeofenceScreen}
+      options={{
+        headerShown: true,
+        headerTitle: 'Safe Zones',
+        headerStyle: { backgroundColor: colors.bg.primary },
+        headerTintColor: colors.text.primary,
+        tabBarIcon: ({ focused }) => (
+          <TabIcon label="Zones" emoji="🌐" focused={focused} />
         ),
       }}
     />

@@ -1,12 +1,12 @@
 """
-GeoPulse — Location API Routes
+GeoPulse — Location API Routes (v1.1 Hardened)
 
-GET    /api/v1/location/me
-GET    /api/v1/location/{user_id}
-GET    /api/v1/location/{user_id}/history
-DELETE /api/v1/location/history
+GET    /api/v1/locations/me (and /location/me)
+GET    /api/v1/locations/{user_id}
+GET    /api/v1/locations/{user_id}/history
+DELETE /api/v1/locations/history
 
-Every location endpoint performs authorization checks.
+Every location endpoint strictly enforces authorization checks.
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ from app.schemas.auth import MessageResponse
 from app.schemas.location import LocationResponse
 from app.services import location_service
 
-router = APIRouter(prefix="/api/v1/location", tags=["Location"])
+router = APIRouter(prefix="/api/v1/locations", tags=["Locations"])
 
 
 @router.get("/me", response_model=LocationResponse)

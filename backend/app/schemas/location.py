@@ -1,7 +1,7 @@
 """
-GeoPulse — Location Schemas
+GeoPulse — Location Schemas (v1.1 Hardened)
 
-Pydantic v2 models for GPS coordinates, location updates, and history.
+Pydantic v2 models for GPS coordinates, location updates, freshness, and history.
 """
 
 from __future__ import annotations
@@ -42,6 +42,9 @@ class LocationUpdate(BaseModel):
     heading: Optional[float] = Field(None, ge=0, le=360, description="Heading in degrees")
     altitude: Optional[float] = None
     timestamp: Optional[datetime] = None
+    sequence: int = Field(default=0, ge=0)
+    battery_level: Optional[float] = None
+    is_charging: Optional[bool] = None
 
     def to_geojson(self) -> GeoJSONPoint:
         """Convert lat/lng to GeoJSON Point (lon, lat order)."""
@@ -54,10 +57,15 @@ class LocationResponse(BaseModel):
     latitude: float
     longitude: float
     accuracy: Optional[float] = None
+    accuracy_level: Optional[str] = "unknown"
     speed: Optional[float] = None
     heading: Optional[float] = None
     altitude: Optional[float] = None
     timestamp: Optional[datetime] = None
+    sequence: Optional[int] = 0
+    integrity_status: Optional[str] = "clean"
+    freshness_status: Optional[str] = "live"
+    session_id: Optional[str] = None
     is_live: bool = True
     updated_at: Optional[datetime] = None
 
@@ -67,9 +75,11 @@ class LocationHistoryPoint(BaseModel):
     latitude: float
     longitude: float
     accuracy: Optional[float] = None
+    accuracy_level: Optional[str] = "unknown"
     speed: Optional[float] = None
     heading: Optional[float] = None
-    timestamp: datetime
+    timestamp: Optional[datetime] = None
+    integrity_status: Optional[str] = "clean"
 
 
 class LocationHistoryResponse(BaseModel):
