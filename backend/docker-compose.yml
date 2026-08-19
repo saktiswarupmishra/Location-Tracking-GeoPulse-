@@ -1,0 +1,74 @@
+services:
+  # --- FastAPI Application ---
+  api:
+    build:
+      context: .
+      target: development
+    container_name: geopulse-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      mongodb-primary:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # --- MongoDB Replica Set (required for transactions §34) ---
+  mongodb-primary:
+    image: mongo:7.0
+    container_name: geopulse-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./scripts/rs-init.sh:/docker-entrypoint-initdb.d/rs-init.sh
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "try{rs.status().ok}catch(e){rs.initiate({_id:'rs0',members:[{_id:0,host:'mongodb-primary:27017'}]}).ok}"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 10s
+    restart: unless-stopped
+
+  # --- Redis ---
+  redis:
+    image: redis:7-alpine
+    container_name: geopulse-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # --- Background Worker ---
+  worker:
+    build:
+      context: .
+      target: development
+    container_name: geopulse-worker
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      mongodb-primary:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: ["python", "-m", "app.worker"]
+    restart: unless-stopped
+
+volumes:
+  mongodb_data:
+  redis_data:
