@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const appDirectory = path.resolve(__dirname);
 
-// Compile third-party modules that use modern JS/JSX
+// Compile modules that use modern JS/JSX
 const babelLoaderConfiguration = {
   test: /\.(js|jsx|ts|tsx)$/,
   include: [
@@ -13,8 +13,6 @@ const babelLoaderConfiguration = {
     path.resolve(appDirectory, 'node_modules/@react-navigation'),
     path.resolve(appDirectory, 'node_modules/react-native-screens'),
     path.resolve(appDirectory, 'node_modules/react-native-safe-area-context'),
-    path.resolve(appDirectory, 'node_modules/react-native-vector-icons'),
-    path.resolve(appDirectory, 'node_modules/@react-native-async-storage/async-storage'),
   ],
   use: {
     loader: 'babel-loader',
@@ -69,6 +67,22 @@ module.exports = {
     alias: {
       'react-native$': 'react-native-web',
       'react-native-maps$': path.resolve(appDirectory, 'src/components/WebMap.js'),
+      '@react-native-async-storage/async-storage$': path.resolve(
+        appDirectory,
+        'src/utils/AsyncStorageWeb.js'
+      ),
+      'react-native-permissions$': path.resolve(
+        appDirectory,
+        'src/utils/PermissionsWeb.js'
+      ),
+      'react-native-vector-icons$': path.resolve(
+        appDirectory,
+        'src/utils/VectorIconsWeb.js'
+      ),
+      'react-native-geolocation-service$': path.resolve(
+        appDirectory,
+        'src/services/location.js'
+      ),
       '@api': path.resolve(appDirectory, 'src/api'),
       '@screens': path.resolve(appDirectory, 'src/screens'),
       '@components': path.resolve(appDirectory, 'src/components'),
@@ -94,7 +108,7 @@ module.exports = {
   ],
   devServer: {
     port: 3000,
-    open: true, // Automatically opens browser
+    open: false,
     hot: true,
     historyApiFallback: true,
     client: {

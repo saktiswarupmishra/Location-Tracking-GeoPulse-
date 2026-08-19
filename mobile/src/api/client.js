@@ -6,11 +6,20 @@
  */
 
 import axios from 'axios';
+import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const API_BASE_URL = __DEV__
-  ? 'http://10.0.2.2:8000' // Android emulator
-  : 'https://api.geopulse.app';
+const getBaseUrl = () => {
+  if (Platform.OS === 'web' || typeof window !== 'undefined') {
+    return 'http://localhost:8000';
+  }
+  if (Platform.OS === 'android') {
+    return 'http://10.0.2.2:8000';
+  }
+  return 'http://localhost:8000';
+};
+
+const API_BASE_URL = getBaseUrl();
 
 const api = axios.create({
   baseURL: `${API_BASE_URL}/api/v1`,
@@ -36,8 +45,8 @@ export const setTokens = async (accessToken, refreshToken) => {
 export const getTokens = async () => {
   const values = await AsyncStorage.multiGet([TOKEN_KEYS.ACCESS, TOKEN_KEYS.REFRESH]);
   return {
-    accessToken: values[0][1],
-    refreshToken: values[1][1],
+    accessToken: values?.[0]?.[1] || null,
+    refreshToken: values?.[1]?.[1] || null,
   };
 };
 
@@ -81,7 +90,6 @@ api.interceptors.response.use(
 
     if (error.response?.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {
-        // Queue requests while refreshing
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         })
@@ -114,7 +122,6 @@ api.interceptors.response.use(
       } catch (refreshError) {
         processQueue(refreshError, null);
         await clearTokens();
-        // Trigger logout in app state
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;
