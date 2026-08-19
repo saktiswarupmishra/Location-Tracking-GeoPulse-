@@ -11,6 +11,7 @@ import {
   Animated,
   Alert,
   Vibration,
+  Platform,
 } from 'react-native';
 import { colors, spacing, borderRadius, typography, shadows } from '../../theme';
 import { sosApi } from '../../api/endpoints';
