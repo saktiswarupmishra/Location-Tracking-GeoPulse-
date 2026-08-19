@@ -1,9 +1,9 @@
 """
-GeoPulse — Redis Connection Manager
+GeoPulse — Redis Connection Manager (v1.1 Hardened)
 
 Uses redis-py (with hiredis accelerator) for async operations.
-Provides a singleton client + Pub/Sub helpers for real-time
-location broadcasting across multiple server instances.
+Configured with protocol=2 (RESP2) for universal compatibility
+across all Redis versions and Windows ports (avoids unknown command 'HELLO').
 """
 
 from __future__ import annotations
@@ -33,6 +33,7 @@ async def connect_redis() -> None:
     redis_manager.client = aioredis.from_url(
         settings.REDIS_URL,
         decode_responses=True,
+        protocol=2,  # Forces RESP2 protocol (compatible with all Redis/Memurai versions)
     )
     # Verify connection
     await redis_manager.client.ping()
