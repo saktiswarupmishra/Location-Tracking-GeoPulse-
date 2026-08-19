@@ -1,5 +1,5 @@
 /**
- * GeoPulse — Login Screen (Phone OTP & Quick Demo)
+ * GeoPulse — Login Screen (Phone OTP Authentication)
  */
 
 import React, { useState, useRef } from 'react';
@@ -97,34 +97,11 @@ const LoginScreen = () => {
 
       await login(data);
     } catch (error) {
-      // Demo bypass fallback if offline
-      await login({
-        id: 'user_demo_1',
-        name: name || 'Demo User',
-        phone: phone,
-        privacy_settings: {
-          discoverability: 'everyone',
-          location_sharing_enabled: true,
-        },
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleQuickDemo = async () => {
-    setIsLoading(true);
-    try {
-      await login({
-        id: 'user_demo_1',
-        name: 'Alex Explorer',
-        phone: '+91 98765 43210',
-        email: 'alex@geopulse.app',
-        privacy_settings: {
-          discoverability: 'everyone',
-          location_sharing_enabled: true,
-        },
-      });
+      const msg =
+        error?.response?.data?.detail ||
+        error?.message ||
+        'Verification failed. Please check the code and try again.';
+      setErrorMsg(msg);
     } finally {
       setIsLoading(false);
     }
@@ -181,18 +158,7 @@ const LoginScreen = () => {
                 )}
               </TouchableOpacity>
 
-              <View style={styles.dividerRow}>
-                <View style={styles.dividerLine} />
-                <Text style={styles.dividerText}>OR</Text>
-                <View style={styles.dividerLine} />
-              </View>
 
-              <TouchableOpacity
-                style={styles.demoButton}
-                onPress={handleQuickDemo}
-                activeOpacity={0.8}>
-                <Text style={styles.demoButtonText}>⚡ Instant Demo Access</Text>
-              </TouchableOpacity>
             </>
           )}
 
@@ -244,14 +210,6 @@ const LoginScreen = () => {
         </Animated.View>
 
         {/* Footer */}
-        <View style={styles.footerBox}>
-          <Text style={styles.footerText}>
-            🔒 Your phone number is used for identity only.
-          </Text>
-          <Text style={styles.footerSub}>
-            Location is NEVER shared without explicit consent.
-          </Text>
-        </View>
       </View>
     </KeyboardAvoidingView>
   );
@@ -357,34 +315,7 @@ const styles = StyleSheet.create({
     color: colors.text.primary,
     fontSize: 15,
   },
-  dividerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: spacing.md,
-  },
-  dividerLine: {
-    flex: 1,
-    height: 1,
-    backgroundColor: colors.bg.tertiary,
-  },
-  dividerText: {
-    color: colors.text.tertiary,
-    fontSize: 11,
-    marginHorizontal: spacing.sm,
-  },
-  demoButton: {
-    backgroundColor: colors.brand.secondary + '15',
-    borderWidth: 1,
-    borderColor: colors.brand.secondary + '40',
-    borderRadius: borderRadius.md,
-    paddingVertical: 12,
-    alignItems: 'center',
-  },
-  demoButtonText: {
-    ...typography.bodyBold,
-    color: colors.brand.secondary,
-    fontSize: 14,
-  },
+
   devBanner: {
     backgroundColor: colors.brand.warning + '22',
     borderRadius: borderRadius.sm,
