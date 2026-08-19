@@ -26,9 +26,10 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/runtime": "^7.25.0",
-    "@react-native-community/cli": "^20.2.0",
-    "@react-native-community/cli-platform-android": "15.0.1",
-    "@react-native-community/cli-platform-ios": "15.0.1",
+    "@react-native-community/cli": "14.1.0",
+    "@react-native-community/cli-platform-android": "14.1.0",
+    "@react-native-community/cli-platform-ios": "14.1.0",
+    "@react-native-community/cli-server-api": "14.1.0",
     "@react-native/babel-preset": "0.76.9",
     "@react-native/metro-config": "0.76.9",
     "babel-plugin-module-resolver": "^5.0.2",
